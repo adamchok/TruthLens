@@ -1,0 +1,9 @@
+.claude/
+.vscode/
+.cursor/
+.bob/
+node_modules/
+out/
+*.vsix
+*.log
+.vscode-test/

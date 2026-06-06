@@ -1,0 +1,161 @@
+{
+  "name": "truthlens",
+  "displayName": "TruthLens",
+  "description": "Continuous codebase honesty audit, powered by IBM Bob",
+  "version": "1.0.0",
+  "publisher": "adamchok",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamchok/TruthLens"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "code quality",
+    "documentation",
+    "audit",
+    "bob",
+    "ibm"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "truthlens.audit",
+        "title": "TruthLens: Audit Repository",
+        "icon": "$(search)"
+      },
+      {
+        "command": "truthlens.scaffold",
+        "title": "TruthLens: Scaffold Bob Artifacts",
+        "icon": "$(file-directory)"
+      },
+      {
+        "command": "truthlens.fix",
+        "title": "TruthLens: Fix Claim Violation",
+        "icon": "$(wrench)"
+      },
+      {
+        "command": "truthlens.fixAll",
+        "title": "TruthLens: Fix All Open Findings",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "truthlens.openDashboard",
+        "title": "TruthLens: Open Dashboard",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "truthlens.refreshFindings",
+        "title": "TruthLens: Refresh Findings",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "truthlens.openFinding",
+        "title": "TruthLens: Open Finding",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "truthlens.showFindingDetail",
+        "title": "TruthLens: Show Finding Detail",
+        "icon": "$(info)"
+      },
+      {
+        "command": "truthlens.markResolved",
+        "title": "TruthLens: Mark Finding as Resolved",
+        "icon": "$(check)"
+      },
+      {
+        "command": "truthlens.dismissFinding",
+        "title": "TruthLens: Dismiss Finding",
+        "icon": "$(circle-slash)"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "truthlensFindings",
+          "name": "TruthLens Findings",
+          "icon": "$(eye)",
+          "contextualTitle": "TruthLens"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "truthlens.refreshFindings",
+          "when": "view == truthlensFindings",
+          "group": "navigation"
+        },
+        {
+          "command": "truthlens.audit",
+          "when": "view == truthlensFindings",
+          "group": "navigation"
+        },
+        {
+          "command": "truthlens.fixAll",
+          "when": "view == truthlensFindings",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TruthLens",
+      "properties": {
+        "truthlens.decorationStyle": {
+          "type": "string",
+          "enum": [
+            "codelens",
+            "decoration",
+            "both"
+          ],
+          "default": "both",
+          "description": "How to display findings in the editor"
+        },
+        "truthlens.autoAuditOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically run audit when files are saved"
+        },
+        "truthlens.minimumConfidence": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Minimum confidence threshold for displaying findings (0.0-1.0)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run copy-artifacts && npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "copy-artifacts": "node copy-artifacts.js",
+    "package": "npm run copy-artifacts && vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,7 @@
+out
+node_modules
+.vscode-test/
+*.vsix
+bob_artifacts/
+.vscode/
+.cursor/
